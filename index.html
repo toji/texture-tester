@@ -48,6 +48,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         border-bottom: 1px solid black;
       }
 
+      h3.error {
+        text-align: center;
+        color: #CC0000;
+        background: #440000;
+        padding: 0.5em;
+      }
+
       a {
         text-decoration: none;
       }
@@ -307,75 +314,81 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       canvas.height = 256;
 
       var gl = WebGLUtil.getContext(canvas);
-      var textureUtil = new WebGLTextureUtil(gl, true);
-      var shader = WebGLUtil.createProgramFromTags(gl, "#default-vs", "#default-fs");
-      gl.useProgram(shader.program);
-      gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-      var quadBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-        -1,  1,   0, 0,
-         1,  1,   1, 0,
-         1, -1,   1, 1,
+      if (gl) {
+        var textureUtil = new WebGLTextureUtil(gl, true);
+        var shader = WebGLUtil.createProgramFromTags(gl, "#default-vs", "#default-fs");
+        gl.useProgram(shader.program);
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        -1,  1,   0, 0,
-         1, -1,   1, 1,
-        -1, -1,   0, 1,
-      ]), gl.STATIC_DRAW);
+        var quadBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+          -1,  1,   0, 0,
+           1,  1,   1, 0,
+           1, -1,   1, 1,
 
-      gl.enableVertexAttribArray(shader.attribute.Position);
-      gl.enableVertexAttribArray(shader.attribute.TexCoord);
-      gl.vertexAttribPointer(shader.attribute.Position, 2, gl.FLOAT, false, 16, 0);
-      gl.vertexAttribPointer(shader.attribute.TexCoord, 2, gl.FLOAT, false, 16, 8);
+          -1,  1,   0, 0,
+           1, -1,   1, 1,
+          -1, -1,   0, 1,
+        ]), gl.STATIC_DRAW);
 
-      gl.uniform1i(shader.uniform.diffuse, 0);
+        gl.enableVertexAttribArray(shader.attribute.Position);
+        gl.enableVertexAttribArray(shader.attribute.TexCoord);
+        gl.vertexAttribPointer(shader.attribute.Position, 2, gl.FLOAT, false, 16, 0);
+        gl.vertexAttribPointer(shader.attribute.TexCoord, 2, gl.FLOAT, false, 16, 8);
 
-      function loadTexture(texElem) {
-        var textureSrc = texElem.getAttribute("x-src");
-        texElem.tabIndex = 0;
-        var textureSize = texElem.getAttribute("x-size-bytes");
+        gl.uniform1i(shader.uniform.diffuse, 0);
 
-        var statsList = document.createElement("ul");
-            statsList.classList.add("stats");
-            texElem.appendChild(statsList);
+        function loadTexture(texElem) {
+          var textureSrc = texElem.getAttribute("x-src");
+          texElem.tabIndex = 0;
+          var textureSize = texElem.getAttribute("x-size-bytes");
 
-        function addStat(name, value) {
-          var stat = document.createElement("li");
-          stat.innerHTML = "<b>" + name + ":</b> " + value;
-          statsList.appendChild(stat);
+          var statsList = document.createElement("ul");
+              statsList.classList.add("stats");
+              texElem.appendChild(statsList);
+
+          function addStat(name, value) {
+            var stat = document.createElement("li");
+            stat.innerHTML = "<b>" + name + ":</b> " + value;
+            statsList.appendChild(stat);
+          }
+
+          addStat("File Size", Math.floor(textureSize / 1024) + " Kb");
+
+          textureUtil.loadTexture(textureSrc, null, function(texture, error, stats) {
+            if (stats != null) {
+              addStat("Size in memory (Lvl 0)", Math.floor(stats.levelZeroSize / 1024) + " Kb");
+              addStat("Dimensions", stats.width + " x " + stats.height);
+              addStat("Upload time", Math.floor(stats.uploadTime) + " ms");
+            }
+
+            if (!error) { 
+              gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+              gl.bindTexture(gl.TEXTURE_2D, texture);
+              gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+              var dataUrl = canvas.toDataURL();
+              texElem.style.backgroundImage = "url(" + dataUrl + ")";
+            } else {
+              var errorElem = document.createElement("div");
+              errorElem.classList.add("errorText");
+              errorElem.innerHTML = error;
+              texElem.appendChild(errorElem);
+              texElem.classList.add("error");
+            }
+          });
         }
 
-        addStat("File Size", Math.floor(textureSize / 1024) + " Kb");
+        var textures = document.querySelectorAll(".texture");
 
-        textureUtil.loadTexture(textureSrc, null, function(texture, error, stats) {
-          if (stats != null) {
-            addStat("Size in memory (Lvl 0)", Math.floor(stats.levelZeroSize / 1024) + " Kb");
-            addStat("Dimensions", stats.width + " x " + stats.height);
-            addStat("Upload time", Math.floor(stats.uploadTime) + " ms");
-          }
-
-          if (!error) { 
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-            gl.bindTexture(gl.TEXTURE_2D, texture);
-            gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-            var dataUrl = canvas.toDataURL();
-            texElem.style.backgroundImage = "url(" + dataUrl + ")";
-          } else {
-            var errorElem = document.createElement("div");
-            errorElem.classList.add("errorText");
-            errorElem.innerHTML = error;
-            texElem.appendChild(errorElem);
-            texElem.classList.add("error");
-          }
-        });
-      }
-
-      var textures = document.querySelectorAll(".texture");
-
-      for (var i = 0; i < textures.length; ++i) {
-        loadTexture(textures[i]);
+        for (var i = 0; i < textures.length; ++i) {
+          loadTexture(textures[i]);
+        }
+      } else {
+        var main = document.getElementById("main");
+        main.innerHTML = "<h3 class='error'>WebGL not Supported</h3>";
       }
     </script>
   </body>
