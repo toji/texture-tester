@@ -740,6 +740,8 @@ var WebGLTextureUtil = (function() {
       this.callback = callback;
     }
 
+    var useWorker = true;
+
     // This class is our public interface.
     var TextureLoader = function(gl) {
       this.gl = gl;
