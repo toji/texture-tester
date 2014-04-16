@@ -305,7 +305,7 @@ var WebGLTextureUtil = (function() {
 
   // Offsets into the header array.
   var PVR_HEADER_MAGIC = 0;
-  var PVR_HEADER_FORMAT = 3;
+  var PVR_HEADER_FORMAT = 2;
   var PVR_HEADER_HEIGHT = 6;
   var PVR_HEADER_WIDTH = 7;
   var PVR_HEADER_MIPMAPCOUNT = 11;
@@ -450,16 +450,12 @@ var WebGLTextureUtil = (function() {
         internalFormat = COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
         break;
 
-      case PVR_FORMAT_4BPP_RGB:
+      case PVR_FORMAT_4BPP_RGBA:
         internalFormat = COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
         break;
 
-      case PVR_FORMAT_4BPP_RGB:
-        internalFormat = COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
-        break;
-
-      case PVR_FORMAT_4BPP_RGB:
-        internalFormat = COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
+      case PVR_FORMAT_ETC1:
+        internalFormat = COMPRESSED_RGB_ETC1_WEBGL;
         break;
 
       case PVR_FORMAT_DXT1:
