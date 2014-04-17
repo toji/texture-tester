@@ -200,11 +200,11 @@ var WebGLTextureUtil = (function() {
 
       case COMPRESSED_RGB_PVRTC_4BPPV1_IMG:
       case COMPRESSED_RGBA_PVRTC_4BPPV1_IMG:
-        return Math.max(width, 8) * Math.max(height, 8) / 2;
+        return Math.floor((Math.max(width, 8) * Math.max(height, 8) * 4 + 7) / 8);
 
       case COMPRESSED_RGB_PVRTC_2BPPV1_IMG:
       case COMPRESSED_RGBA_PVRTC_2BPPV1_IMG:
-        return Math.max(width, 16) * Math.max(height, 8) / 4;
+        return Math.floor((Math.max(width, 16) * Math.max(height, 8) * 2 + 7) / 8);
 
       default:
         return 0;
