@@ -603,7 +603,7 @@ var WebGLTextureUtil = (function() {
         var gl = self.gl;
         gl.bindTexture(gl.TEXTURE_2D, self.texture);
 
-        var startTime = performance.now();
+        var startTime = Date.now();
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, self.image);
 
         if (isPowerOfTwo(self.image.width) && isPowerOfTwo(self.image.height)) {
@@ -614,7 +614,7 @@ var WebGLTextureUtil = (function() {
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
           gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         }
-        var uploadTime = performance.now() - startTime;
+        var uploadTime = Date.now() - startTime;
 
         if(self.callback) {
           var stats = {
@@ -749,7 +749,7 @@ var WebGLTextureUtil = (function() {
       this.atcExt = getExtension(gl, "WEBGL_compressed_texture_atc");
       this.etc1Ext = getExtension(gl, "WEBGL_compressed_texture_etc1");
 
-      if (!!useWorker) {
+      if (!!useWorker && this.supportsDXT()) {
         var self = this;
 
         // When using a worker process we must keep track of the pending texture
@@ -837,7 +837,7 @@ var WebGLTextureUtil = (function() {
         uploadTime: 0
       };
 
-      var startTime = performance.now();
+      var startTime = Date.now();
       // Loop through each mip level of compressed texture data provided and upload it to the given texture.
       for (var i = 0; i < levels; ++i) {
         // Determine how big this level of compressed texture data is in bytes.
@@ -852,7 +852,7 @@ var WebGLTextureUtil = (function() {
         // Advance the offset into the compressed texture data past the current mip level's data.
         offset += levelSize;
       }
-      stats.uploadTime = performance.now() - startTime;
+      stats.uploadTime = Date.now() - startTime;
 
       // We can't use gl.generateMipmaps with compressed textures, so only use
       // mipmapped filtering if the compressed texture data contained mip levels.
@@ -901,7 +901,7 @@ var WebGLTextureUtil = (function() {
     // If no texture is provided one is created and returned.
     TextureLoader.prototype.loadDDS = function(src, texture, callback) {
       var self = this;
-      if(!texture) {
+      if (!texture) {
         texture = this.gl.createTexture();
       }
 
@@ -935,8 +935,13 @@ var WebGLTextureUtil = (function() {
     // If no texture is provided one is created and returned.
     TextureLoader.prototype.loadCRN = function(src, texture, callback) {
       var self = this;
-      if(!texture) {
+      if (!texture) {
         texture = this.gl.createTexture();
+      }
+
+      if (!this.supportsDXT()) {
+        clearOnError(this.gl, "Texture format not supported", texture, callback);
+        return texture;
       }
 
       if(this.worker) {
