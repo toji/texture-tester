@@ -81,7 +81,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         font-size: 0.8em;
       }
 
-      .texture {
+      .texture, .texturePreview {
         display: block;
         margin: 0.5em;
         background: #333333;
@@ -123,9 +123,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <section id="header">
       <h1>Large Texture Test</h1>
+
+      <p>This test provokes an error on some iOS devices when using large textures. All boxes below should contain an image that looks like this:</p>
+      <img src="textures/LFT.png" class="texturePreview"/>
     </section>
 
     <section id="main">
+      <h2>Test Renderings:</h2>
       <div class="texture" style="width: 256px; height: 128px;"></div>
       <div class="texture" style="width: 512px; height: 256px;"></div>
       <div class="texture" style="width: 1024px; height: 512px;"></div>
@@ -167,14 +171,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         textureUtil.loadTexture("textures/BFT.png", null, function(texture, error, stats) {
           if (!error) { 
             function loadTexture(texElem) {
+
+              function log(str, logClass) {
+                var logDiv = document.createElement("div");
+                if (logClass) {
+                  logDiv.classList.add(logClass);
+                }
+                logDiv.innerHTML = str;
+                texElem.appendChild(logDiv);
+              }
+
               canvas.width = texElem.clientWidth;
               canvas.height = texElem.clientHeight;
+
+              log("" + canvas.width + " x " + canvas.height); 
 
               gl.viewport(0, 0, canvas.width, canvas.height);
               gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
               gl.bindTexture(gl.TEXTURE_2D, texture);
               gl.drawArrays(gl.TRIANGLES, 0, 6);
 
+              // Test results
+
+
+              // Copy data to image
               var dataUrl = canvas.toDataURL();
               texElem.style.backgroundImage = "url(" + dataUrl + ")";
             }
