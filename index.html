@@ -98,7 +98,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         text-shadow: 2px 2px #000000;
         color: #EDEDED;
         padding: 0;
-        margin: 1em;]
+        margin: 1em;
         position: absolute;
         top: 0;
         left: 0;
@@ -343,6 +343,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function loadTexture(texElem) {
           var textureSrc = texElem.getAttribute("x-src");
           texElem.tabIndex = 0;
+          texElem.role = "button";
           var textureSize = texElem.getAttribute("x-size-bytes");
 
           var statsList = document.createElement("ul");
