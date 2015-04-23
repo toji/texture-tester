@@ -83,6 +83,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       }
 
       .texture {
+        font-size: 1em;
+        text-align: left;
         display: inline-block;
         width: 256px;
         height: 256px;
@@ -198,25 +200,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <section id="main">
       <h1>Browser Native Formats (Uncompressed)</h1>
 
-      <div class="texture" x-src="textures/shannon.jpg" x-size-bytes="99488">
+      <button class="texture" x-src="textures/shannon.jpg" x-size-bytes="99488">
         <h2>JPEG</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon.png" x-size-bytes="463987">
+      <button class="texture" x-src="textures/shannon.png" x-size-bytes="463987">
         <h2>PNG</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon.gif" x-size-bytes="133577">
+      <button class="texture" x-src="textures/shannon.gif" x-size-bytes="133577">
         <h2>GIF</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon.bmp" x-size-bytes="786488">
+      <button class="texture" x-src="textures/shannon.bmp" x-size-bytes="786488">
         <h2>BMP</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon.webp" x-size-bytes="33378">
+      <button class="texture" x-src="textures/shannon.webp" x-size-bytes="33378">
         <h2>WEBP</h2>
-      </div>
+      </button>
 
       <h1>
         <a href="http://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_s3tc/">
@@ -224,17 +226,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </a>
       </h1>
 
-      <div class="texture" x-src="textures/shannon-dxt1.dds" x-size-bytes="174904">
+      <button class="texture" x-src="textures/shannon-dxt1.dds" x-size-bytes="174904">
         <h2>DXT1</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-dxt3.dds" x-size-bytes="262272">
+      <button class="texture" x-src="textures/shannon-dxt3.dds" x-size-bytes="262272">
         <h2>DXT3</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-dxt5.dds" x-size-bytes="349680">
+      <button class="texture" x-src="textures/shannon-dxt5.dds" x-size-bytes="349680">
         <h2>DXT5</h2>
-      </div>
+      </button>
 
       <h1>
         <a href="http://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_s3tc/">
@@ -245,13 +247,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </a>
       </h1>
 
-      <div class="texture" x-src="textures/shannon-dxt1.crn" x-size-bytes="63186">
+      <button class="texture" x-src="textures/shannon-dxt1.crn" x-size-bytes="63186">
         <h2>DXT1 (Crunch)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-dxt5.crn" x-size-bytes="71722">
+      <button class="texture" x-src="textures/shannon-dxt5.crn" x-size-bytes="71722">
         <h2>DXT5 (Crunch)</h2>
-      </div>
+      </button>
 
       <h1>
         <a href="http://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_pvrtc/">
@@ -259,21 +261,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </a>
       </h1>
 
-      <div class="texture" x-src="textures/shannon-pvrtc-2bpp-rgb.pvr" x-size-bytes="87555">
+      <button class="texture" x-src="textures/shannon-pvrtc-2bpp-rgb.pvr" x-size-bytes="87555">
         <h2>PVRTC (2BPP RGB)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-pvrtc-2bpp-rgba.pvr" x-size-bytes="87555">
+      <button class="texture" x-src="textures/shannon-pvrtc-2bpp-rgba.pvr" x-size-bytes="87555">
         <h2>PVRTC (2BPP RGBA)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-pvrtc-4bpp-rgb.pvr" x-size-bytes="174915">
+      <button class="texture" x-src="textures/shannon-pvrtc-4bpp-rgb.pvr" x-size-bytes="174915">
         <h2>PVRTC (4BPP RGB)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-pvrtc-4bpp-rgba.pvr" x-size-bytes="174915">
+      <button class="texture" x-src="textures/shannon-pvrtc-4bpp-rgba.pvr" x-size-bytes="174915">
         <h2>PVRTC (4BPP RGBA)</h2>
-      </div>
+      </button>
 
       <h1>
         <a href="http://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_atc/">
@@ -281,17 +283,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </a>
       </h1>
 
-      <div class="texture" x-src="textures/shannon-atc-rgb.dds" x-size-bytes="131200">
+      <button class="texture" x-src="textures/shannon-atc-rgb.dds" x-size-bytes="131200">
         <h2>ATC (RGB)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-atc-rgba-explicit.dds" x-size-bytes="262272">
+      <button class="texture" x-src="textures/shannon-atc-rgba-explicit.dds" x-size-bytes="262272">
         <h2>ATC (RGBA, Explicit)</h2>
-      </div>
+      </button>
 
-      <div class="texture" x-src="textures/shannon-atc-rgba-interpolated.dds" x-size-bytes="262272">
+      <button class="texture" x-src="textures/shannon-atc-rgba-interpolated.dds" x-size-bytes="262272">
         <h2>ATC (RGBA, Interpolated)</h2>
-      </div>
+      </button>
 
       <h1>
         <a href="http://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_etc1/">
@@ -299,9 +301,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </a>
       </h1>
 
-      <div class="texture" x-src="textures/shannon-etc1.pvr" x-size-bytes="174843">
+      <button class="texture" x-src="textures/shannon-etc1.pvr" x-size-bytes="174843">
         <h2>ETC1</h2>
-      </div>
+      </button>
     </section>
 
     <section id="footer">
@@ -343,7 +345,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function loadTexture(texElem) {
           var textureSrc = texElem.getAttribute("x-src");
           texElem.tabIndex = 0;
-          texElem.role = "button";
           var textureSize = texElem.getAttribute("x-size-bytes");
 
           var statsList = document.createElement("ul");
