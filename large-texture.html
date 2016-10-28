@@ -175,9 +175,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
               gl.bindTexture(gl.TEXTURE_2D, texture);
               gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-              var dataUrl = canvas.toDataURL();
-              texElem.style.backgroundImage = "url(" + dataUrl + ")";
+              
+              if (typeof canvas.toBlob == "function") {
+                canvas.toBlob(function (blob) {         
+                  var dataUri = (window.URL || window.webkitURL).createObjectURL(blob);
+                  texElem.style.backgroundImage = "url(" + dataUri + ")";
+                });
+              } else {
+                var dataUri = canvas.toDataURL();
+                texElem.style.backgroundImage = "url(" + dataUri + ")";
+              }
             }
 
             var textures = document.querySelectorAll(".texture");
